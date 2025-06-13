@@ -3,7 +3,6 @@ import { Messages, MessageGroup, MessageBubble } from '@/components/messages';
 import { Spotify } from '@/components/Spotify';
 import { posts, sortPosts } from '@/content/posts';
 import Link from 'next/link';
-import { Icon } from '@iconify/react';
 
 export default function HomePage() {
   const sorted = sortPosts(posts);
