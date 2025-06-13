@@ -7,7 +7,8 @@ type Params = {
   entry: string;
 };
 
-export function generateStaticParams() {
+// ✅ Make it async to match expected return type
+export async function generateStaticParams(): Promise<{ entry: string }[]> {
   return posts.map((post) => ({
     entry: post.slug,
   }));
@@ -23,7 +24,14 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
   };
 }
 
-export default function BlogPostPage({ params }: { params: Params }) {
+// ✅ Explicitly define the props type
+interface PageProps {
+  params: {
+    entry: string;
+  };
+}
+
+export default function BlogPostPage({ params }: PageProps) {
   const post = posts.find((p) => p.slug === params.entry);
   if (!post) return notFound();
 
