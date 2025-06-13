@@ -46,22 +46,3 @@ export abstract class Post {
 
   public abstract render(): ReactNode;
 }
-
-
-export namespace Post {
-  export interface PartialJSON {
-    name: string;
-    slug: string;
-    date: string;
-    hidden: boolean;
-    excerpt: string;
-    keywords: string[];
-  }
-
-  export interface TinyJSON {
-    name: string;
-    slug: string;
-    date: string;
-    excerpt: string;
-  }
-}
