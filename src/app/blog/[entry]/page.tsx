@@ -3,17 +3,19 @@ import { posts } from '@/content/posts';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-export async function generateStaticParams() {
+// Generate static paths (slugs)
+export function generateStaticParams() {
   return posts.map((post) => ({
     entry: post.slug,
   }));
 }
 
-export async function generateMetadata({
+// Generate metadata (title, description, etc.)
+export function generateMetadata({
   params,
 }: {
   params: { entry: string };
-}): Promise<Metadata> {
+}): Metadata {
   const post = posts.find((p) => p.slug === params.entry);
   if (!post) return {};
   return {
@@ -23,7 +25,8 @@ export async function generateMetadata({
   };
 }
 
-export default async function BlogPostPage({
+// Render the actual blog post
+export default function BlogPostPage({
   params,
 }: {
   params: { entry: string };
