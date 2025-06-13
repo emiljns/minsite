@@ -1,22 +1,17 @@
+// src/app/blog/[entry]/page.tsx
 import { notFound } from 'next/navigation';
 import { posts } from '@/content/posts';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { PageProps } from 'next/app'; // import correct type
 
-type Params = {
-  entry: string;
-};
+type Params = { entry: string };
 
-// It's okay if this stays a normal function, no async needed
-export function generateStaticParams() {
-  return posts.map((post) => ({
-    entry: post.slug,
-  }));
+export async function generateStaticParams(): Promise<Params[]> {
+  return posts.map(post => ({ entry: post.slug }));
 }
 
-export function generateMetadata({ params }: { params: Params }): Metadata {
-  const post = posts.find((p) => p.slug === params.entry);
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+  const post = posts.find(p => p.slug === params.entry);
   if (!post) return {};
   return {
     title: post.name,
@@ -25,9 +20,8 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
   };
 }
 
-// Use the correct PageProps type
-export default function BlogPostPage({ params }: PageProps<{ entry: string }>) {
-  const post = posts.find((p) => p.slug === params.entry);
+export default async function BlogPostPage({ params }: { params: Params }) {
+  const post = posts.find(p => p.slug === params.entry);
   if (!post) return notFound();
 
   const PostComponent = post.Component;
@@ -37,6 +31,11 @@ export default function BlogPostPage({ params }: PageProps<{ entry: string }>) {
       <Link href="/" className="text-xl text-zinc-500 font-mono mb-6 block">
         cd ../
       </Link>
+
+      <h1>{post.name}</h1>
+      <p className="text-sm text-zinc-500">{post.date.toDateString()}</p>
+      <p className="text-lg">{post.excerpt}</p>
+
       <PostComponent />
     </main>
   );
