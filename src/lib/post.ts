@@ -1,49 +1,67 @@
-import { notFound } from 'next/navigation';
-import { posts } from '@/content/posts';
-import type { Metadata } from 'next';
-import Link from 'next/link';
+import type { ReactNode } from 'react';
 
-type Params = {
-  entry: string;
-};
-
-// ✅ Make it async to match expected return type
-export async function generateStaticParams(): Promise<{ entry: string }[]> {
-  return posts.map((post) => ({
-    entry: post.slug,
-  }));
+export interface PostPartialJSON {
+  name: string;
+  slug: string;
+  date: string;
+  hidden: boolean;
+  excerpt: string;
+  keywords: string[];
 }
 
-export function generateMetadata({ params }: { params: Params }): Metadata {
-  const post = posts.find((p) => p.slug === params.entry);
-  if (!post) return {};
-  return {
-    title: post.name,
-    description: post.excerpt,
-    keywords: post.keywords,
-  };
+export interface PostTinyJSON {
+  name: string;
+  slug: string;
+  date: string;
+  excerpt: string;
 }
 
-// ✅ Explicitly define the props type
-interface PageProps {
-  params: {
-    entry: string;
-  };
+export abstract class Post {
+  public abstract readonly name: string;
+  public abstract readonly slug: string;
+  public abstract readonly date: Date;
+  public abstract readonly hidden: boolean;
+  public abstract readonly excerpt: string;
+  public abstract readonly keywords: string[];
+
+  public toJSON(): PostPartialJSON {
+    return {
+      name: this.name,
+      slug: this.slug,
+      date: this.date.toISOString(),
+      hidden: this.hidden,
+      excerpt: this.excerpt,
+      keywords: this.keywords,
+    };
+  }
+
+  public toTinyJSON(): PostTinyJSON {
+    return {
+      name: this.name,
+      slug: this.slug,
+      date: this.date.toISOString(),
+      excerpt: this.excerpt,
+    };
+  }
+
+  public abstract render(): ReactNode;
 }
 
-export default function BlogPostPage({ params }: PageProps) {
-  const post = posts.find((p) => p.slug === params.entry);
-  if (!post) return notFound();
 
-  const PostComponent = post.Component;
+export namespace Post {
+  export interface PartialJSON {
+    name: string;
+    slug: string;
+    date: string;
+    hidden: boolean;
+    excerpt: string;
+    keywords: string[];
+  }
 
-  return (
-    <main className="prose dark:prose-invert mx-auto px-4 pt-24 pb-16 space-y-8">
-      <Link href="/" className="text-xl text-zinc-500 font-mono mb-6 block">
-        cd ../
-      </Link>
-
-      <PostComponent />
-    </main>
-  );
+  export interface TinyJSON {
+    name: string;
+    slug: string;
+    date: string;
+    excerpt: string;
+  }
 }
