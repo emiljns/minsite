@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
 import type { ReactNode } from 'react';
+import Image from 'next/image';
+
 
 export function MessageBubble({
   children,
@@ -52,7 +54,7 @@ export function MessageGroup({ children }: { children: ReactNode }) {
       className="flex items-end gap-3"
     >
       <div className="flex flex-col justify-end">
-        <img
+        <Image
           src="https://avatars.githubusercontent.com/emiljns"
           alt="GitHub avatar"
           className="size-8 rounded-full border border-zinc-300 dark:border-zinc-900"
