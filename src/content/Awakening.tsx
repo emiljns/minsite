@@ -1,4 +1,6 @@
 import type { Metadata } from '@/lib/types';
+import Image from 'next/image';
+
 
 export const metadata: Metadata = {
   name: "The Legend of Zelda: Link's Awakening",
