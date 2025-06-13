@@ -1,5 +1,21 @@
 import type { ReactNode } from 'react';
 
+export interface PostPartialJSON {
+  name: string;
+  slug: string;
+  date: string;
+  hidden: boolean;
+  excerpt: string;
+  keywords: string[];
+}
+
+export interface PostTinyJSON {
+  name: string;
+  slug: string;
+  date: string;
+  excerpt: string;
+}
+
 export abstract class Post {
   public abstract readonly name: string;
   public abstract readonly slug: string;
@@ -8,7 +24,7 @@ export abstract class Post {
   public abstract readonly excerpt: string;
   public abstract readonly keywords: string[];
 
-  public toJSON(): Post.PartialJSON {
+  public toJSON(): PostPartialJSON {
     return {
       name: this.name,
       slug: this.slug,
@@ -19,7 +35,7 @@ export abstract class Post {
     };
   }
 
-  public toTinyJSON(): Post.TinyJSON {
+  public toTinyJSON(): PostTinyJSON {
     return {
       name: this.name,
       slug: this.slug,
@@ -30,6 +46,7 @@ export abstract class Post {
 
   public abstract render(): ReactNode;
 }
+
 
 export namespace Post {
   export interface PartialJSON {
