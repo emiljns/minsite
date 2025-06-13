@@ -3,18 +3,19 @@ import { posts } from '@/content/posts';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-type Params = {
-  entry: string;
+type PageProps = {
+  params: {
+    entry: string;
+  };
 };
 
-// ✅ Make it async to match expected return type
-export async function generateStaticParams(): Promise<{ entry: string }[]> {
+export async function generateStaticParams(): Promise<PageProps['params'][]> {
   return posts.map((post) => ({
     entry: post.slug,
   }));
 }
 
-export function generateMetadata({ params }: { params: Params }): Metadata {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const post = posts.find((p) => p.slug === params.entry);
   if (!post) return {};
   return {
@@ -24,14 +25,7 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
   };
 }
 
-// ✅ Explicitly define the props type
-interface PageProps {
-  params: {
-    entry: string;
-  };
-}
-
-export default function BlogPostPage({ params }: PageProps) {
+export default async function BlogPostPage({ params }: PageProps) {
   const post = posts.find((p) => p.slug === params.entry);
   if (!post) return notFound();
 
@@ -42,7 +36,6 @@ export default function BlogPostPage({ params }: PageProps) {
       <Link href="/" className="text-xl text-zinc-500 font-mono mb-6 block">
         cd ../
       </Link>
-
       <PostComponent />
     </main>
   );
