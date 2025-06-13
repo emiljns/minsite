@@ -7,6 +7,6 @@ export const posts = [
   },
 ] as const;
 
-export function sortPosts(p: typeof posts) {
+export function sortPosts(p: readonly typeof posts[number][]) {
   return [...p].sort((a, b) => b.date.getTime() - a.date.getTime());
 }
