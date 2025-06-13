@@ -1,4 +1,6 @@
 import type { Metadata } from '../lib/types';
+import Image from 'next/image';
+
 
 export const metadata: Metadata = {
   name: "Link's Awakening",
@@ -12,7 +14,7 @@ export const metadata: Metadata = {
 export default function Awakening() {
   return (
     <article className="space-y-6">
-      <img
+      <Image
        src="https://philips-blog-88o0raogu-philipcodes.vercel.app/assets/covers/links-awakening.jpg"
        alt="Link's Awakening key art"
        className="rounded-md my-6 w-full"
