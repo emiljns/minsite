@@ -1,13 +1,10 @@
-import type { Metadata } from '../lib/types';
-import Image from 'next/image';
-
+import type { Metadata } from '@/lib/types';
 
 export const metadata: Metadata = {
-  name: "Link's Awakening",
-  slug: 'awakening',
-  date: new Date('2021-10-16'),
-  excerpt:
-    "A beautifully strange return to top down Zelda familiar, yet dreamlike.",
+  name: "The Legend of Zelda: Link's Awakening",
+  slug: "awakening",
+  date: new Date("2025-06-12"),
+  excerpt: "A beautiful game for the Nintendo Switch.",
   keywords: ['zelda', 'switch', 'nintendo', 'link', 'awakening'],
 };
 
