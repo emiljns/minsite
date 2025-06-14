@@ -1,16 +1,19 @@
-// src/app/blog/[entry]/page.tsx
 import { notFound } from 'next/navigation';
 import { posts } from '@/content/posts';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-type Params = { entry: string };
+interface PageProps {
+  params: {
+    entry: string;
+  };
+}
 
-export async function generateStaticParams(): Promise<Params[]> {
+export async function generateStaticParams(): Promise<PageProps["params"][]> {
   return posts.map(post => ({ entry: post.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const post = posts.find(p => p.slug === params.entry);
   if (!post) return {};
   return {
@@ -20,7 +23,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   };
 }
 
-export default async function BlogPostPage({ params }: { params: Params }) {
+export default async function BlogPostPage({ params }: PageProps) {
   const post = posts.find(p => p.slug === params.entry);
   if (!post) return notFound();
 
@@ -29,13 +32,8 @@ export default async function BlogPostPage({ params }: { params: Params }) {
   return (
     <main className="prose dark:prose-invert mx-auto px-4 pt-24 pb-16 space-y-8">
       <Link href="/" className="text-xl text-zinc-500 font-mono mb-6 block">
-        cd ../
+        ← Back
       </Link>
-
-      <h1>{post.name}</h1>
-      <p className="text-sm text-zinc-500">{post.date.toDateString()}</p>
-      <p className="text-lg">{post.excerpt}</p>
-
       <PostComponent />
     </main>
   );
