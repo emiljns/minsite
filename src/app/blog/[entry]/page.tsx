@@ -1,7 +1,7 @@
-import { notFound } from 'next/navigation';
-import { posts } from '@/content/posts';
-import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { Metadata } from "next";
+import { posts } from "../posts";
 
 export async function generateStaticParams(): Promise<{ entry: string }[]> {
   return posts.map((post) => ({ entry: post.slug }));
