@@ -1,17 +1,21 @@
+import type { Metadata } from 'next';
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { posts } from "@/content/posts";
-import type { Metadata } from "next";
 
-export async function generateStaticParams() {
+type PageProps = {
+  params: {
+    entry: string;
+  };
+};
+
+export async function generateStaticParams(): Promise<PageProps["params"][]> {
   return posts.map((post) => ({ entry: post.slug }));
 }
 
 export async function generateMetadata({
   params,
-}: {
-  params: { entry: string };
-}): Promise<Metadata> {
+}: PageProps): Promise<Metadata> {
   const post = posts.find((p) => p.slug === params.entry);
   if (!post) return {};
   return {
@@ -21,11 +25,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function BlogPostPage({
-  params,
-}: {
-  params: { entry: string };
-}) {
+export default async function BlogPostPage({ params }: PageProps) {
   const post = posts.find((p) => p.slug === params.entry);
   if (!post) return notFound();
 
