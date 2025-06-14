@@ -1,24 +1,12 @@
-import Awakening, { metadata as awakeningMeta } from './Awakening';
+import Awakening, { metadata as awakeningMeta } from "./Awakening";
 
-// Post type definition
-export type Post = {
-  Component: React.ComponentType;
-  name: string;
-  slug: string;
-  excerpt?: string;
-  keywords?: string[];
-  date: Date;
-};
-
-// List of posts
-export const posts: Post[] = [
+export const posts = [
   {
     Component: Awakening,
     ...awakeningMeta,
   },
-];
+] as const;
 
-// Optional: sort posts by date
-export function sortPosts(p: Post[]) {
+export function sortPosts(p: typeof posts) {
   return [...p].sort((a, b) => b.date.getTime() - a.date.getTime());
 }
