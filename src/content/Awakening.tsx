@@ -1,35 +1,45 @@
-import type { Metadata } from '@/lib/types';
-import Image from 'next/image';
+// File: src/lib/types.ts
+export type Metadata = {
+  name: string;
+  slug: string;
+  date: Date;
+  excerpt: string;
+  keywords: string[];
+};
 
+// File: src/content/Awakening.tsx
+import type { Metadata } from "@/lib/types";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   name: "The Legend of Zelda: Link's Awakening",
   slug: "awakening",
   date: new Date("2025-06-12"),
   excerpt: "A beautiful game for the Nintendo Switch.",
-  keywords: ['zelda', 'switch', 'nintendo', 'link', 'awakening'],
+  keywords: ["zelda", "switch", "nintendo", "link", "awakening"],
 };
 
 export default function Awakening() {
   return (
     <article className="space-y-6">
       <Image
-       src="https://philips-blog-88o0raogu-philipcodes.vercel.app/assets/covers/links-awakening.jpg"
-       alt="Link's Awakening key art"
-       className="rounded-md my-6 w-full"
+        src="https://philips-blog-88o0raogu-philipcodes.vercel.app/assets/covers/links-awakening.jpg"
+        alt="Link's Awakening key art"
+        className="rounded-md my-6 w-full"
+        width={1280}
+        height={720}
       />
       <header className="space-y-1">
         <h1 className="text-3xl font-semibold">{metadata.name}</h1>
         <p className="text-sm text-zinc-500">
           {metadata.date.toLocaleDateString(undefined, {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
+            year: "numeric",
+            month: "long",
+            day: "numeric",
           })}
         </p>
         <p className="text-zinc-600 dark:text-zinc-400">{metadata.excerpt}</p>
       </header>
-
       <div className="space-y-4">
         <p>
           When the last Legend of Zelda wound up shaking up the whole series – and all open-world
