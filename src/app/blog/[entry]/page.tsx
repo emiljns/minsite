@@ -3,12 +3,6 @@ import { posts } from '@/content/posts';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-interface PageProps {
-  params: {
-    entry: string;
-  };
-}
-
 export async function generateStaticParams(): Promise<{ entry: string }[]> {
   return posts.map((post) => ({ entry: post.slug }));
 }
