@@ -9,12 +9,16 @@ interface PageProps {
   };
 }
 
-export async function generateStaticParams(): Promise<PageProps["params"][]> {
-  return posts.map(post => ({ entry: post.slug }));
+export async function generateStaticParams(): Promise<{ entry: string }[]> {
+  return posts.map((post) => ({ entry: post.slug }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const post = posts.find(p => p.slug === params.entry);
+export async function generateMetadata({
+  params,
+}: {
+  params: { entry: string };
+}): Promise<Metadata> {
+  const post = posts.find((p) => p.slug === params.entry);
   if (!post) return {};
   return {
     title: post.name,
@@ -23,8 +27,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function BlogPostPage({ params }: PageProps) {
-  const post = posts.find(p => p.slug === params.entry);
+export default async function BlogPostPage({
+  params,
+}: {
+  params: { entry: string };
+}) {
+  const post = posts.find((p) => p.slug === params.entry);
   if (!post) return notFound();
 
   const PostComponent = post.Component;
