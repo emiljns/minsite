@@ -1,42 +1,22 @@
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { posts } from "@/content/posts";
-import type { Metadata } from "next";
+import { notFound } from 'next/navigation';
+import entries from '../entries';
+import { PageProps } from '@/lib/types';
 
-export async function generateStaticParams() {
-  return posts.map((post) => ({ entry: post.slug }));
-}
+export async function generateMetadata({ params }: PageProps) {
+  const entry = entries.find((e) => e.slug === params.entry);
+  if (!entry) return {};
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { entry: string };
-}): Promise<Metadata> {
-  const post = posts.find((p) => p.slug === params.entry);
-  if (!post) return {};
   return {
-    title: post.name,
-    description: post.excerpt,
-    keywords: post.keywords,
+    title: entry.name,
+    description: entry.excerpt,
+    keywords: entry.keywords,
   };
 }
 
-export default async function Page({
-  params,
-}: {
-  params: { entry: string };
-}) {
-  const post = posts.find((p) => p.slug === params.entry);
-  if (!post) return notFound();
+export default async function BlogPostPage({ params }: PageProps) {
+  const entry = entries.find((e) => e.slug === params.entry);
+  if (!entry) notFound();
 
-  const PostComponent = post.Component;
-
-  return (
-    <main className="prose dark:prose-invert mx-auto px-4 pt-24 pb-16 space-y-8">
-      <Link href="/" className="text-xl text-zinc-500 font-mono mb-6 block">
-        ← Back
-      </Link>
-      <PostComponent />
-    </main>
-  );
+  const Page = (await import(`../entries/${entry.slug}.tsx`)).default;
+  return <Page />;
 }
